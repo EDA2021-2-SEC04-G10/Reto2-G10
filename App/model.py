@@ -25,6 +25,7 @@
  """
 
 
+from DISClib.DataStructures.arraylist import newList
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -172,16 +173,24 @@ def getArtworkByMedium(catalog, name):
     medium = mp.get(catalog['Medium'], name)
     artworks = lt.newList()
     if medium:
-        artworks = lt.newListaddLast(me.getValue(medium)['artworks'])
+        artworks = lt.addLast(me.getValue(medium)['artworks'])
     return artworks
 
-def nObrasTecnica(catalog, size, name):
+def nObrasTecnica(size, name, catalog):
     medium = mp.get(catalog['Medium'], name)
     artworks = lt.newList()
     if medium:
         artworks = lt.addLast(artworks, me.getValue(medium)['artworks'])
-    f = sortArtworkByYear(artworks['Date'], len(artworks))
-    for i in f:
+    b = lt.newList()
+    for i in artworks:
+        lt.addLast(b, getYear(artworks[i]))
+
+    f = sortArtworkByYear(b, len(artworks))
+    l = newList()
+    for i in artworks:
+        if getYear(f[i])==artworks[i].get['Date']:
+            lt.addLast(l, artworks[i])
+    for i in l:
         if i < size:
             g = lt.newList()
             lt.addLast(g, f[i])
@@ -191,9 +200,9 @@ def nObrasTecnica(catalog, size, name):
 
 
 
-def getYear(catalog, artwork):
-    obra = catalog['artwork'].get(artwork)
-    year = obra.get('Date')
+def getYear(artwork):
+    
+    year = artwork.get('Date')
 
     return year
 
