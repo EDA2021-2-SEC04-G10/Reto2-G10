@@ -74,10 +74,7 @@ while True:
         label2 = input("Introduzca Técnica:")
         lista = controller.nObrasTecnica(int(label1), str(label2), catalog)
         print("Lista de las " + label1 + "obras más antiguas: ")
-        print(lista)
-
-        
-
+        print(lista['Title'])
     else:
         sys.exit(0)
 sys.exit(0)

@@ -51,7 +51,7 @@ def newCatalog():
     catalog['Medium'] = mp.newMap(10000,
                                    maptype='CHAINING',
                                    loadfactor=4.0,
-                                   comparefunction=compareMapMedium)
+                                   comparefunction=None)
     return catalog
     
 
@@ -170,12 +170,32 @@ def addMedium(catalog, medium):
 def getArtworkByMedium(catalog, name):
    
     medium = mp.get(catalog['Medium'], name)
-    artworks = None
+    artworks = lt.newList()
     if medium:
-        artworks = me.getValue(medium)['artworks']
+        artworks = lt.newListaddLast(me.getValue(medium)['artworks'])
     return artworks
 
+def artworkByDateMa(catalog, size, name):
+    medium = mp.get(catalog['Medium'], name)
+    artworks = lt.newList()
+    if medium:
+        artworks = lt.addLast(artworks, me.getValue(medium)['artworks'])
+    f = sortArtworkByYear(artworks['Date'], len(artworks))
+    for i in f:
+        if i < size:
+            g = lt.newList()
+            lt.addLast(g, f[i])
+    return g            
 
+    
+
+
+
+def getYear(catalog, artwork):
+    obra = catalog['artwork'].get(artwork)
+    year = obra.get('Date')
+
+    return year
 
 
 # Funciones utilizadas para comparar elementos dentro de una lista
@@ -185,7 +205,7 @@ def getArtworkByMedium(catalog, name):
 def compareYears(year1, year2):
     if (int(year1) == int(year2)):
         return 0
-    elif (int(year1) > int(year2)):
+    elif (int(year1) < int(year2)):
         return 1
     else:
         return 0
@@ -193,4 +213,9 @@ def compareYears(year1, year2):
 
 # Funciones de ordenamiento
 
+def sortArtworkByYear(catalog, size):
+    sub_list = lt.subList(catalog['artwork'], 1, size)
+    sub_list = sub_list.copy()
+    sorted_list = sa.sort(sub_list, compareYears)
+    return sorted_list
 
