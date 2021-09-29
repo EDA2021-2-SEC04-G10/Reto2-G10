@@ -175,7 +175,7 @@ def getArtworkByMedium(catalog, name):
         artworks = lt.newListaddLast(me.getValue(medium)['artworks'])
     return artworks
 
-def artworkByDateMa(catalog, size, name):
+def nObrasTecnica(catalog, size, name):
     medium = mp.get(catalog['Medium'], name)
     artworks = lt.newList()
     if medium:
