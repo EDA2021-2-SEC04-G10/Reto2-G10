@@ -37,7 +37,23 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Obras más antiguas de un medio especifico")
+    print("0- Salir")
+
+
+def initCatalog():
+    """
+    Inicializa el catalogo de artistas y obras
+    """
+    return controller.initCatalog()
+
+
+def loadData(catalog):
+    """
+    Carga los artistas y obras en la estructura de datos
+    """
+    controller.loadData(catalog)
+
 
 catalog = None
 
@@ -49,9 +65,18 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-
+        catalog = initCatalog()
+        loadData(catalog)
+        print('Artistas cargados: ' + str(lt.size(catalog['artist'])))
+        print('Obras cargadas: ' + str(lt.size(catalog['artwork'])))
     elif int(inputs[0]) == 2:
-        pass
+        label1 = input("Introduzca cantidad de obras:")
+        label2 = input("Introduzca Técnica:")
+        lista = controller.nObrasTecnica(int(label1), str(label2), catalog)
+        print("Lista de las " + label1 + "obras más antiguas: ")
+        print(lista)
+
+        
 
     else:
         sys.exit(0)
